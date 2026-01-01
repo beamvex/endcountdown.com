@@ -1,8 +1,11 @@
 {
   "scripts": {
-    "start": "http-server -c-1 ./public"
+    "start": "http-server -c-1 ./public",
+    "tf:apply": "ntf -chdir=terraform init && ntf -chdir=terraform apply",
+    "deploy": "npm run tf:apply && BUCKET=$(terraform -chdir=terraform output -raw s3_bucket_name) && DIST_ID=$(terraform -chdir=terraform output -raw cloudfront_distribution_id) && aws s3 sync ./public s3://$BUCKET --delete && aws cloudfront create-invalidation --distribution-id $DIST_ID --paths '/*'"
   },
   "dependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "node-terraform": "^1.0.0"
   }
 }
