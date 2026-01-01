@@ -59,6 +59,25 @@
             color: #000000;
             width: 90%;
         }
+
+        .countdown {
+            display: inline-block;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 48px;
+            letter-spacing: 2px;
+            background: #000000;
+            color: #00ff66;
+            padding: 10px 14px;
+            border: 3px inset #c0c0c0;
+        }
+
+        .countdownLabel {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #000000;
+        }
     </style>
 </head>
 <body>
@@ -72,7 +91,7 @@
 
             <table class="nav" cellpadding="0" cellspacing="6" border="0">
                 <tr>
-                    <td><a href="#start" data-page="start">START</a></td>
+                    <td><a href="#home" data-page="home">HOME</a></td>
                     <td><a href="#about" data-page="about">ABOUT</a></td>
                     <td><a href="#guestbook" data-page="guestbook">GUESTBOOK</a></td>
                     <td><a href="#links" data-page="links">COOL LINKS</a></td>
@@ -88,19 +107,73 @@
                                 <blink><font color="#ff0000">NEW!</font></blink>
                             </h1>
                             <font size="3">
-                                End Countdown is a website that allows you to count down to an event.
+                                End Countdown is a website that allows you to count down to THE END.
                             </font>
                             <br>
                             <br>
                             <div id="content" class="contentBox">
-                                <font face="Arial, Helvetica, sans-serif" size="2">
-                                    <b>START</b>
-                                    <br>
-                                    Pick a date, hit GO, and watch the seconds vanish.
-                                    <br>
-                                    <br>
-                                    <b>Coming soon:</b> an actual countdown widget.
-                                </font>
+                                <div id="page-home" data-page="home">
+                                    <font face="Arial, Helvetica, sans-serif" size="2">
+                                        <b>HOME</b>
+                                        <br>
+                                        Countdown to 22nd July 2026 4pm BST:
+                                        <br>
+                                        <br>
+                                        <span class="countdownLabel">DAYS</span>
+                                        <br>
+                                        <span class="countdown"><span id="countdown-days">--</span></span>
+                                        <br>
+                                        <br>
+                                        <span class="countdownLabel">TIME</span>
+                                        <br>
+                                        <span class="countdown"><span id="countdown-hours">--</span>:<span id="countdown-minutes">--</span>:<span id="countdown-seconds">--</span></span>
+                                        <br>
+                                        <br>
+                                        <span id="countdown-status"></span>
+                                    </font>
+                                </div>
+                                <div id="page-about" data-page="about" style="display:none;">
+                                    <font face="Arial, Helvetica, sans-serif" size="2">
+                                        <b>ABOUT</b>
+                                        <br>
+                                        End Countdown is your totally radical place to count down to big moments like:
+                                        <br>
+                                        - The end (22 July 2026)
+                                        <br>
+                                        <br>
+                                        <i>Hand-crafted HTML. No Java required. Just pure suspense.</i>
+                                    </font>
+                                </div>
+                                <div id="page-guestbook" data-page="guestbook" style="display:none;">
+                                    <font face="Arial, Helvetica, sans-serif" size="2">
+                                        <b>GUESTBOOK</b>
+                                        <br>
+                                        Sign my guestbook!!!
+                                        <br>
+                                        <br>
+                                        <form onsubmit="return false;">
+                                            Name: <input type="text" size="18"> <br>
+                                            Message: <input type="text" size="28"> <br><br>
+                                            <input type="submit" value="SIGN!">
+                                        </form>
+                                        <br>
+                                        <font size="1" color="#666666">(not actually wired up… yet)</font>
+                                    </font>
+                                </div>
+                                <div id="page-links" data-page="links" style="display:none;">
+                                    <font face="Arial, Helvetica, sans-serif" size="2">
+                                        <b>COOL LINKS</b>
+                                        <br>
+                                        My totally cool links:
+                                        <br>
+                                        - <a href="https://www.w3.org/" target="_blank" rel="noopener">The World Wide Web Consortium</a>
+                                        <br>
+                                        - <a href="https://developer.mozilla.org/" target="_blank" rel="noopener">Netscape Navigator Help (kinda)</a>
+                                        <br>
+                                        <br>
+                                        <b>Warning:</b> external links open a new window.
+                                    </font>
+                                </div>
                             </div>
                             <br>
                             <table border="3" cellpadding="8" cellspacing="0" bgcolor="#ffffff">
@@ -127,7 +200,7 @@
                             <br>
                             <font size="2">
                                 <b>Site menu:</b>
-                                <a href="#start" data-page="start">Start</a>
+                                <a href="#home" data-page="home">Home</a>
                                 |
                                 <a href="#about" data-page="about">About</a>
                                 |
@@ -154,44 +227,61 @@
             var content = document.getElementById("content");
             if (!content) return;
 
-            var pages = {
-                start:
-                    "<font face='Arial, Helvetica, sans-serif' size='2'>" +
-                    "<b>START</b><br>Pick a date, hit GO, and watch the seconds vanish." +
-                    "<br><br><b>Coming soon:</b> an actual countdown widget." +
-                    "</font>",
-                about:
-                    "<font face='Arial, Helvetica, sans-serif' size='2'>" +
-                    "<b>ABOUT</b><br>End Countdown is your totally radical place to count down to:" +
-                    "<br>- Birthdays<br>- Vacations<br>- The millennium (again)" +
-                    "<br><br><i>Hand-crafted HTML. No Java required.</i>" +
-                    "</font>",
-                guestbook:
-                    "<font face='Arial, Helvetica, sans-serif' size='2'>" +
-                    "<b>GUESTBOOK</b><br>Sign my guestbook!!!" +
-                    "<br><br><form onsubmit='return false;'>" +
-                    "Name: <input type='text' size='18'> <br>" +
-                    "Message: <input type='text' size='28'> <br><br>" +
-                    "<input type='submit' value='SIGN!'>" +
-                    "</form>" +
-                    "<br><font size='1' color='#666666'>(not actually wired up… yet)</font>" +
-                    "</font>",
-                links:
-                    "<font face='Arial, Helvetica, sans-serif' size='2'>" +
-                    "<b>COOL LINKS</b><br>My totally cool links:" +
-                    "<br>- <a href='https://www.w3.org/' target='_blank' rel='noopener'>The World Wide Web Consortium</a>" +
-                    "<br>- <a href='https://developer.mozilla.org/' target='_blank' rel='noopener'>Netscape Navigator Help (kinda)</a>" +
-                    "<br><br><b>Warning:</b> external links open a new window." +
-                    "</font>"
-            };
+            var sections = content.querySelectorAll("[data-page]");
 
             function show(page) {
-                content.innerHTML = pages[page] || pages.start;
+                var target = page || "home";
+                for (var i = 0; i < sections.length; i++) {
+                    var el = sections[i];
+                    el.style.display = el.getAttribute("data-page") === target ? "block" : "none";
+                }
             }
 
             function getPageFromHash() {
                 var h = (window.location.hash || "").replace("#", "");
                 return h;
+            }
+
+            function pad2(n) {
+                return n < 10 ? "0" + n : "" + n;
+            }
+
+            function updateCountdown() {
+                var elDays = document.getElementById("countdown-days");
+                var elHours = document.getElementById("countdown-hours");
+                var elMinutes = document.getElementById("countdown-minutes");
+                var elSeconds = document.getElementById("countdown-seconds");
+                var elStatus = document.getElementById("countdown-status");
+
+                if (!elDays || !elHours || !elMinutes || !elSeconds) return;
+
+                // 22 July 2026 16:00 BST == 15:00 UTC
+                var targetUtcMs = Date.UTC(2026, 6, 22, 15, 0, 0);
+                var nowMs = Date.now();
+                var diffMs = targetUtcMs - nowMs;
+
+                if (diffMs <= 0) {
+                    elDays.textContent = "0";
+                    elHours.textContent = "00";
+                    elMinutes.textContent = "00";
+                    elSeconds.textContent = "00";
+                    if (elStatus) elStatus.textContent = "IT HAS ENDED.";
+                    return;
+                }
+
+                var totalSeconds = Math.floor(diffMs / 1000);
+                var days = Math.floor(totalSeconds / 86400);
+                var rem = totalSeconds % 86400;
+                var hours = Math.floor(rem / 3600);
+                rem = rem % 3600;
+                var minutes = Math.floor(rem / 60);
+                var seconds = rem % 60;
+
+                elDays.textContent = String(days);
+                elHours.textContent = pad2(hours);
+                elMinutes.textContent = pad2(minutes);
+                elSeconds.textContent = pad2(seconds);
+                if (elStatus) elStatus.textContent = "";
             }
 
             document.addEventListener("click", function (e) {
@@ -209,10 +299,12 @@
 
             window.addEventListener("hashchange", function () {
                 var page = getPageFromHash();
-                if (pages[page]) show(page);
+                show(page);
             });
 
-            show(pages[getPageFromHash()] ? getPageFromHash() : "start");
+            show(getPageFromHash() || "home");
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
         })();
     </script>
 </body>
